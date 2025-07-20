@@ -26,10 +26,10 @@ function calculateBonusByProfit(index, total, seller) {
     1: 0.1,
     2: 0.1,
   }
-  if (index !== total) {
-   return  seller.profit * (bonusPercent[index] ?? 0.05);
+  if (index === total - 1) {
+   return 0;
   }
-  return  0
+  return seller.profit * (bonusPercent[index] ?? 0.05);
 }
 
 // @TODO: Расчет бонуса от позиции в рейтинге
@@ -46,6 +46,10 @@ function analyzeSalesData(data, options) {
    arr.length === 0)) {
   throw new Error('Data is not defined');
 }
+//Отдельная проверка для тестов "purchase_records"
+if (!data.purchase_records || data.purchase_records.length === 0) {
+    throw new Error('Purchase records is not defined');
+  }
 
 // @TODO: Проверка наличия опций
 const { calculateRevenue, calculateBonus } = options;
@@ -112,7 +116,7 @@ sellerStats.sort((a, b) => b.profit - a.profit
 
 // @TODO: Назначение премий на основе ранжирования
 sellerStats.forEach((seller, index) => {
-  const total = sellerStats.length - 1;
+  const total = sellerStats.length;
   seller.bonus = calculateBonus(index, total, seller)
   seller.top_products = (Object.entries(seller.products_sold)
     .sort((a, b) => b[1] - a[1]))
