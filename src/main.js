@@ -122,7 +122,10 @@ sellerStats.forEach((seller, index) => {
     .sort((a, b) => b[1] - a[1]))
     .slice(0, 10)
     .map(([name, value]) =>
-      ({ [name]: value })
+      ({ [name]: value,
+         "quantity": value,
+         "sku": name,
+       })
     )
 }
 )
