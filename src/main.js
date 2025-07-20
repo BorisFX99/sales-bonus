@@ -72,6 +72,9 @@ function analyzeSalesData(data, options) {
   if (!calculateRevenue || !calculateBonus) {
     throw new Error('Переменная не опредлена!')
   }
+  if (!typeof calculateRevenue === "function" || !typeof calculateBonus === "function") {
+    throw new Error('Функция не опредлена!')
+  }
 
   // @TODO: Подготовка промежуточных данных для сбора статистики
   const sellerStats =
